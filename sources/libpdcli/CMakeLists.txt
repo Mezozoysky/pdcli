@@ -29,6 +29,7 @@ target_include_directories(${PROJECT_NAME}
     )
 
 set(HEADER_FILES
+    include/pd/cli/abstract_style.hpp
     include/pd/cli/pdcli.hpp
     )
 set(SOURCE_FILES
