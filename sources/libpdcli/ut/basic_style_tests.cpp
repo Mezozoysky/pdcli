@@ -10,17 +10,26 @@ TEST_CASE("basic_style tests", "[style][basic_style]")
 
     REQUIRE(style.is_long_allowed());
     REQUIRE(style.get_long_prefix() == "--"sv);
-    REQUIRE(style.is_short_allowed());
-    REQUIRE(style.get_short_prefix() == "-"sv);
-    REQUIRE(!style.is_short_grouping_allowed());
     REQUIRE(style.is_long_separator_allowed());
     REQUIRE(style.get_long_separator() == "="sv);
     REQUIRE(style.is_long_blank_separator_allowed());
     REQUIRE(!style.is_long_no_separator_allowed());
+    REQUIRE(style.is_short_allowed());
+    REQUIRE(style.get_short_prefix() == "-"sv);
     REQUIRE(style.is_short_separator_allowed());
     REQUIRE(style.get_short_separator() == "="sv);
     REQUIRE(style.is_short_blank_separator_allowed());
     REQUIRE(!style.is_short_no_separator_allowed());
+
+    REQUIRE(!style.is_short_grouping_allowed());
+
+    REQUIRE(style.is_options_first_required());
+
+    REQUIRE(style.is_stop_word_allowed());
+    REQUIRE(style.get_stop_word() == "--");
+    REQUIRE(!style.is_stop_word_required());
+
+    REQUIRE(!style.is_subcommands_allowed());
 
     REQUIRE(style.is_valid_long_option("--option"sv));
     REQUIRE(style.is_valid_long_option("--some-option"sv));
@@ -59,10 +68,4 @@ TEST_CASE("basic_style tests", "[style][basic_style]")
     REQUIRE(!style.is_valid_command_name("-"sv));
     REQUIRE(!style.is_valid_command_name("--option"sv));
     REQUIRE(!style.is_valid_command_name("-o"sv));
-
-    REQUIRE(style.is_options_first_required());
-    REQUIRE(style.is_stop_word_allowed());
-    REQUIRE(style.get_stop_word() == "--");
-    REQUIRE(!style.is_stop_word_required());
-    REQUIRE(!style.is_subcommands_allowed());
 }
