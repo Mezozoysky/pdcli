@@ -17,10 +17,10 @@ public:
                          std::string_view short_separator = "=",
                          std::string_view stop_word = "--");
 
-    basic_style(const basic_style&) noexcept = default;
-    basic_style(basic_style&&) noexcept = default;
-    basic_style& operator=(const basic_style&) noexcept = default;
-    basic_style& operator=(basic_style&&) noexcept = default;
+    basic_style(basic_style const &) noexcept = default;
+    basic_style(basic_style &&) noexcept = default;
+    basic_style& operator=(basic_style const &) noexcept = default;
+    basic_style& operator=(basic_style &&) noexcept = default;
     virtual ~basic_style() noexcept = default;
 
     inline bool is_long_allowed() const noexcept override final
