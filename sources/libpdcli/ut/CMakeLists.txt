@@ -29,6 +29,7 @@ set(HEADER_FILES
 set(SOURCE_FILES
     basic_style_tests.cpp
     posix_style_tests.cpp
+    gnu_style_tests.cpp
     pdcli_tests.cpp
     )
 
