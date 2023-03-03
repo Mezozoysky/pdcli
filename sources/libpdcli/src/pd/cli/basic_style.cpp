@@ -33,12 +33,22 @@ basic_style::basic_style(std::string_view long_prefix,
 
 bool basic_style::is_valid_long_option(std::string_view token) const noexcept
 {
+    if (!is_long_allowed())
+    {
+        return false;
+    }
+
     return (token.starts_with(get_long_prefix())
             && token.size() > get_long_prefix().size());
 }
 
 bool basic_style::is_valid_short_option(std::string_view token) const noexcept
 {
+    if (!is_short_allowed())
+    {
+        return false;
+    }
+
     return (token.starts_with(get_short_prefix())
             && token.size() >= get_short_prefix().size() + 1);
 }
@@ -48,49 +58,76 @@ std::string_view basic_style::parse_option_name(std::string_view token, bool is_
     std::string_view name{};
     if (is_short)
     {
+        if (!is_short_allowed())
+        {
+            return name;
+        }
         if (!is_valid_short_option(token))
         {
-            return std::string_view{};
+            return name;
         }
+
         name = token;
         name.remove_prefix(get_short_prefix().size());
         if (name.size() == 1)
         {
             return name;
         }
+
         if (!is_short_separator_allowed() && !is_short_no_separator_allowed())
         {
             return std::string_view{}; // short option name length should be equal to 1
         }
-        else
+
+        // if (!is_long_allowed())
+        // {
+        //     return name;
+        // }
+        if (is_short_separator_allowed())
         {
             std::size_t pos{name.find(get_short_separator())};
-            if (pos != std::string_view::npos)
+            if (pos == 1u)
             {
-                if (is_short_separator_allowed())
-                {
-                    name.remove_suffix(name.size() - pos);
-                    assert(name.size() == 1);
-                    return name;
-                }
-                else
-                {
-                    return std::string_view{};
-                }
-            }
-            else
-            {
-                if (is_short_no_separator_allowed())
-                    {
-                        name.remove_suffix(name.size() - 1);
-                        return name;
-                    }
-                else
-                    {
-                        return std::string_view{};
-                    }
+                name.remove_suffix(name.size() - pos);
+                assert(name.size() == 1);
+                return name;
             }
         }
+
+        if (is_short_no_separator_allowed())
+        {
+            name.remove_suffix(name.size() - 1);
+            return name;
+        }
+
+        return std::string_view{};
+
+        // std::size_t pos{name.find(get_short_separator())};
+        // if (pos != std::string_view::npos)
+        // {
+        //     if (is_short_separator_allowed())
+        //     {
+        //         name.remove_suffix(name.size() - pos);
+        //         assert(name.size() == 1);
+        //         return name;
+        //     }
+        //     else
+        //     {
+        //         return std::string_view{};
+        //     }
+        // }
+        // else
+        // {
+        //     if (is_short_no_separator_allowed())
+        //     {
+        //         name.remove_suffix(name.size() - 1);
+        //         return name;
+        //     }
+        //     else
+        //     {
+        //         return std::string_view{};
+        //     }
+        // }
     }
     else
     {
