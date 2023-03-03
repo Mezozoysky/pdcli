@@ -4,7 +4,7 @@
 using namespace std::literals;
 using pd::cli::posix_style;
 
-TEST_CASE("basic_style tests", "[style][posix_style]")
+TEST_CASE("posix_style tests", "[style][basic_style][posix_style]")
 {
     posix_style style{};
 
