@@ -10,14 +10,13 @@ namespace pd::cli
 class basic_style
 : public abstract_style
 {
-protected:
+public:
     explicit basic_style(std::string_view long_prefix = "--",
                          std::string_view short_prefix = "-",
                          std::string_view long_separator = "=",
                          std::string_view short_separator = "=",
                          std::string_view stop_word = "--");
 
-public:
     basic_style(const basic_style&) noexcept = default;
     basic_style(basic_style&&) noexcept = default;
     basic_style& operator=(const basic_style&) noexcept = default;
