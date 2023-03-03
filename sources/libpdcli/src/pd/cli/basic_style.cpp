@@ -62,6 +62,10 @@ std::string_view basic_style::parse_option_name(std::string_view token, bool is_
         {
             return name;
         }
+        if (is_long_allowed() && token.starts_with(get_long_prefix()))
+        {
+            return name;
+        }
         if (!is_valid_short_option(token))
         {
             return name;
