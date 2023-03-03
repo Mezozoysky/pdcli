@@ -120,7 +120,20 @@ bool basic_style::is_valid_command_name(std::string_view token) const noexcept
 {
     if (token.size() == 0)
     {
-        return false;}
+        return false;
+    }
+    if (is_long_allowed() && token.starts_with(get_long_prefix()))
+    {
+        return false;
+    }
+    if (is_short_allowed() && token.starts_with(get_short_prefix()))
+        {
+            return false;
+        }
+    if (is_stop_word_allowed() && token == get_stop_word())
+    {
+        return false;
+    }
     return true;
 }
 
