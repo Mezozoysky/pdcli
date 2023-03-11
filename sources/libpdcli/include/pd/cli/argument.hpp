@@ -74,15 +74,18 @@ public:
         {
             std::cerr << "failed to parse command line argument '" << token
                       << "': " << e.what() << std::endl;
-            return m_optional ? true : false;
+            // return m_optional ? true : false;
+            return false;
         }
         catch (...)
         {
             std::cerr << "failed to parse command line argument '" << token << "'"
                       << std::endl;
-            return m_optional ? true : false;
+            // return m_optional ? true : false;
+            return false;
         }
-        return m_optional ? true : is_given();
+        // return m_optional ? true : is_given();
+        return is_given();
     }
 
     inline T const & value() const noexcept
