@@ -6,7 +6,7 @@
 namespace pd::cli
 {
 template<typename T>
-class argument_list : public a_argument
+class argument_list : public abstract_argument
 {
 public:
     argument_list(std::string_view name = "",
@@ -14,7 +14,7 @@ public:
                   std::size_t min_args = 0ul,
                   std::size_t max_args = 0ul,
                   bool optional = false)
-    : a_argument()
+    : abstract_argument()
     , m_given{false}
     , m_name{name}
     , m_help_text{help_text}
@@ -60,7 +60,7 @@ public:
 
     bool parse_cmd_line(std::vector<std::string> const & line,
                         std::size_t & cursor,
-                        a_style const & st) override
+                        abstract_style const & st) override
     {
         assert(!is_given());
         if (cursor == line.size())
