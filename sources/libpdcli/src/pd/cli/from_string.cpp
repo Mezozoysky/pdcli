@@ -10,6 +10,43 @@ using namespace std::literals;
 namespace pd::cli
 {
 
+static void ltrim(std::string & str)
+{
+    str.erase(str.begin(),
+              std::find_if(str.begin(), str.end(),
+                           [](unsigned char c)
+                           {
+                               return !std::isspace(c);
+                           }));
+}
+
+static void rtrim(std::string & str)
+{
+    str.erase(std::find_if(str.rbegin(), str.rend(),
+                           [](unsigned char c)
+                           {
+                               return ! std::isspace(c);
+                           }).base(),
+              str.end());
+}
+
+static void trim(std::string & str)
+{
+    rtrim(str);
+    ltrim(str);
+}
+
+// TODO: replace stoi/stol/etc with own strict by-char parsing
+
+static void tolower(std::string & str)
+{
+    std::transform(str.begin(), str.end(),
+                   str.begin(),
+                   [](unsigned char c)
+                   {
+                       return std::tolower(c);
+                   });
+}
 
 template<>
 std::string from_string(std::string_view token)
@@ -24,12 +61,8 @@ bool from_string(std::string_view token)
     bool value{false};
 
     std::string token_lower{token};
-    std::transform(token_lower.begin(), token_lower.end(),
-                   token_lower.begin(),
-                   [](unsigned char c)
-                   {
-                        return std::tolower(c);
-                   });
+    trim(token_lower);
+    tolower(token_lower);
     if (token_lower == "true"sv
         || token_lower == "t"sv
         || token_lower == "on"sv)
@@ -55,7 +88,8 @@ template<>
 int from_string(std::string_view token)
 {
     int value{0};
-    std::string const str{token};
+    std::string str{token};
+    trim(str);
     try
     {
         value = std::stoi(str);
@@ -72,7 +106,8 @@ template<>
 long from_string(std::string_view token)
 {
     long value{0l};
-    std::string const str{token};
+    std::string str{token};
+    trim(str);
     try
     {
         value = std::stol(str);
@@ -89,7 +124,8 @@ template<>
 unsigned long from_string(std::string_view token)
 {
     unsigned long value{0ul};
-    std::string const str{token};
+    std::string str{token};
+    trim(str);
     try
     {
         value = std::stoul(str);
@@ -106,7 +142,8 @@ template<>
 long long from_string(std::string_view token)
 {
     long long value{0ll};
-    std::string const str{token};
+    std::string str{token};
+    trim(str);
     try
     {
         value = std::stoll(str);
@@ -123,7 +160,8 @@ template<>
 unsigned long long from_string(std::string_view token)
 {
     unsigned long long value{0ull};
-    std::string const str{token};
+    std::string str{token};
+    trim(str);
     try
     {
         value = std::stoull(str);
@@ -140,7 +178,8 @@ template<>
 float from_string(std::string_view token)
 {
     float value{0.0f};
-    std::string const str{token};
+    std::string str{token};
+    trim(str);
     try
     {
         value = std::stof(str);
@@ -157,7 +196,8 @@ template<>
 double from_string(std::string_view token)
 {
     double value{0.0};
-    std::string const str{token};
+    std::string str{token};
+    trim(str);
     try
     {
         value = std::stod(str);
@@ -174,7 +214,8 @@ template<>
 long double from_string(std::string_view token)
 {
     long double value{0.0l};
-    std::string const str{token};
+    std::string str{token};
+    trim(str);
     try
     {
         value = std::stold(str);
