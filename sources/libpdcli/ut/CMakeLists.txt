@@ -31,6 +31,7 @@ set(SOURCE_FILES
     posix_style_tests.cpp
     gnu_style_tests.cpp
     from_string_tests.cpp
+    argument_tests.cpp
     pdcli_tests.cpp
     )
 
