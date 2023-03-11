@@ -94,7 +94,7 @@ public:
         {
             std::cerr << "error: argument list requires at least "
                       << std::to_string(m_min_args) << " arguments"
-                      << " but only " << m_values.size() << "given" << std::endl;
+                      << " but only " << m_values.size() << " are given" << std::endl;
             success = false;
         }
         if (!success)
