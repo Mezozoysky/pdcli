@@ -34,6 +34,10 @@ set(HEADER_FILES
     include/pd/cli/posix_style.hpp
     include/pd/cli/gnu_style.hpp
     include/pd/cli/from_string.hpp
+    include/pd/cli/abstract_clidget.hpp
+    include/pd/cli/abstract_argument.hpp
+    include/pd/cli/argument.hpp
+    include/pd/cli/argument_list.hpp
     include/pd/cli/pdcli.hpp
     )
 set(SOURCE_FILES
