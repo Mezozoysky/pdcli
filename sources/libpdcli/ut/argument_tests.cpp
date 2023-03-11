@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <pd/cli/argument.hpp>
+#include <pd/cli/argument_list.hpp>
 #include <pd/cli/gnu_style.hpp>
 #include <pd/cli/from_string.hpp>
 
@@ -8,7 +9,7 @@
 using namespace std::literals;
 using namespace pd::cli;
 
-TEST_CASE("argument basic tests" "[argument]")
+TEST_CASE("argument parsing tests" "[clidget][argument]")
 {
     argument<std::string> str_arg{};
     argument<int> int_arg{};
@@ -25,7 +26,7 @@ TEST_CASE("argument basic tests" "[argument]")
 
     gnu_style st{};
 
-    bool success{true};
+    bool success{false};
     std::size_t cursor{0u};
 
     REQUIRE(!str_arg.is_given());
@@ -53,5 +54,30 @@ TEST_CASE("argument basic tests" "[argument]")
     REQUIRE(cursor == 4u);
     REQUIRE(int_arg.is_given() == true);
     REQUIRE(int_arg.value() == 44);
+}
 
+TEST_CASE("argument_list parsing tests", "[clidget][argument_list]")
+{
+    std::vector<std::string> cmd_line
+    {
+        "arg-0",
+        "arg-1",
+        "arg-2",
+        "arg-3",
+        "arg-4"
+    };
+
+    gnu_style st{};
+    bool success{false};
+    std::size_t cursor{0u};
+    argument_list<std::string> str_arg_list{};
+
+    REQUIRE(!str_arg_list.is_given());
+    success = str_arg_list.parse_cmd_line(cmd_line, cursor, st);
+    REQUIRE(success);
+    REQUIRE(cursor == 5u);
+    REQUIRE(str_arg_list.is_given());
+    REQUIRE(str_arg_list.value().size() == 5u);
+    REQUIRE(str_arg_list.value()[0u] == "arg-0"s);
+    REQUIRE(str_arg_list.value()[4u] == "arg-4"s);
 }
