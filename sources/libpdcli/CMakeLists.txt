@@ -38,6 +38,7 @@ set(HEADER_FILES
     include/pd/cli/abstract_argument.hpp
     include/pd/cli/argument.hpp
     include/pd/cli/argument_list.hpp
+    include/pd/cli/option.hpp
     include/pd/cli/pdcli.hpp
     )
 set(SOURCE_FILES
@@ -45,6 +46,7 @@ set(SOURCE_FILES
     src/pd/cli/posix_style.cpp
     src/pd/cli/gnu_style.cpp
     src/pd/cli/from_string.cpp
+    src/pd/cli/option.cpp
     src/pd/cli/pdcli.cpp
     )
 
